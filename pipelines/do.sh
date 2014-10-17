@@ -61,17 +61,22 @@ tr -s ' ' '\n' < words > new-uniq-words | sort | uniq -c > new-uniq-words
 # Normally, wc (word count) prints out the number of lines, words, and bytes in a file in addition to the filename. You want to just get the number of words WITH NO FILENAME.
 # Note: the output of wc includes several spaces at the start. This might throw off your column number if you don't take care to get rid of excess spaces.
 # Note: One way to get rid of the filename is to pipe input in from standard input. That doesn't answer the question at hand because that solution reduces the power of what we are able to do (and doesn't teach you cut). Your solution must be able to work on multiple files and output the number of words in each file on a separate line, which you can't do just by redirecting a single input file to standard input.
-wc words | cut -d " " -f -5
+wc words | cut -d ' ' -f -5
 
 # Remember: join requires sorted input!
 # As before, pumpkinsizes contains the names and respective weights from the contest, emails contains the names and emails of all pumpkin carving contestants.
 # First, join the emails and the pumpkin sizes together.
+grep '[0-9]+$' pumpkinsizes | sort > sorted-pumpkinsizes | join emails sorted-pumpkinsizes > emails-joined
+
 # Second, leverage your first solution and then get the email of the winner (only the email; not the name or anything else).
+grep '[0-9]+$' emails-joined | sort  -k 2 -t$'|' -n | tail -1 | cut -d ' ' -f 2
+
 # Third, in the interest of misguided efficiency, you don't want to combine the emails and sizes prematurely. You only want to look up the email address of the winner. Instead of joining and then sorting, sort and then join.
+grep '[0-9]+$' pumpkinsizes | sort -k 2 -t$'|' -n | tail -1 > winner | join emails winner | cut -d ' ' -f 2
 
 
-
-
+# Given any input for the form (x_1, x_2) where x_i is an integer, put out (x_2, x_1). Use the file sed-numbers.
+# Note: sed might require a flag to get the type of regular expressions you're used to.
 
 
 
