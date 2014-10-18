@@ -77,10 +77,7 @@ grep '[0-9]+$' pumpkinsizes | sort -k 2 -t$'|' -n | tail -1 > winner | join emai
 
 # Given any input for the form (x_1, x_2) where x_i is an integer, put out (x_2, x_1). Use the file sed-numbers.
 # Note: sed might require a flag to get the type of regular expressions you're used to.
-
-
-
-
+sed 's/^(\([0-9]*\), \([0-9]*\)/(\2, \1/' sed-numbers
 
 
 
