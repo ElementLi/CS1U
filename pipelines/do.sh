@@ -77,16 +77,19 @@ grep '[0-9]+$' pumpkinsizes | sort -k 2 -t$'|' -n | tail -1 > winner | join emai
 
 # Given any input for the form (x_1, x_2) where x_i is an integer, put out (x_2, x_1). Use the file sed-numbers.
 # Note: sed might require a flag to get the type of regular expressions you're used to.
+# Mathod 1
 sed 's/^(\([0-9]*\), \([0-9]*\)/(\2, \1/' sed-numbers
+# Mathod 2
+perl -pe 's/(?<=\()(\d+), (\d+(?:\.\d+)?)(?=\))/\2, \1/g' sed-numbers
 
 
 # Given a file that holds a 5x5 table, print out another table that is some permutation. Use the file ‘table’
 awk -F '[ ]|-\\[|]' '{ print $1 "|" $2 "|" $3 "|" $4 "|" $5  }' table
 
 # Given a table (in file ‘table’), take its third and fourth columns and wherever they have (x x) as the row, column values make it (y y). Save the columns, however, before they are changed. This should be one command.
-#Mathod 1
+# Mathod 1
 awk -F '[ ]' '{ if ($3=="x" && $4=="x") print $1,$2" y y",$5; else print $1,$2,$3,$4,$5 }' table | tee -i table 
-#Mathod 2? maybe
+# Mathod 2? maybe
 sed -E 's/\s([x]\s[x]$)/ y y/' table | tee -i table 
 
 #If given two ‘.c’ files, figure out how you would use comm to calculate the ratio of the number of lines that are in both files to the number of lines that are unique to a file (bonus points if you do this as one command!)
